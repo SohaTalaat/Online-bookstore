@@ -1,8 +1,8 @@
 # 📚 Online Library Management System
 
-![GitHub repo size](https://img.shields.io/github/repo-size/SohaTalaat/Online-bookstore.git)  
-![GitHub contributors](https://img.shields.io/github/contributors/SohaTalaat/Online-bookstore.git)  
-![GitHub stars](https://img.shields.io/github/stars/SohaTalaat/Online-bookstore.git?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/SohaTalaat/Online-bookstore)  
+![GitHub contributors](https://img.shields.io/github/contributors/SohaTalaat/Online-bookstore)  
+![GitHub stars](https://img.shields.io/github/stars/SohaTalaat/Online-bookstore?style=social)
 
 This project is a simple **Online Library Management System** built using **Native PHP (OOP), MySQL, HTML, CSS, and JavaScript**.
 
