@@ -1,0 +1,880 @@
+/* ===== RESPONSIVE STYLES FOR BOOKSTORE PROJECT ===== */
+
+/* Mobile-first approach with progressive enhancement */
+
+/* ===== GLOBAL RESPONSIVE STYLES ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+/* Fix for blank space before header */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding-top: 70px; /* Default for desktop */
+}
+
+/* Fix search icon padding issue */
+header .search input {
+  padding-left: 40px !important; /* Increased padding to prevent icon overlap */
+}
+
+header .search::before {
+  left: 12px; /* Adjusted icon position */
+  z-index: 1;
+}
+
+/* ===== HEADER RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 20px;
+    flex-direction: column;
+    gap: 15px;
+    height: auto;
+    position: fixed; /* Keep fixed positioning */
+    top: 0; /* Ensure it starts at top */
+  }
+
+  body {
+    padding-top: 140px !important; /* Adjust for taller mobile header */
+  }
+
+  .logo h1.logoName {
+    font-size: 24px;
+  }
+
+  .logo span {
+    font-size: 10px;
+  }
+
+  header .search input {
+    width: 200px;
+    padding: 8px 35px 8px 35px !important; /* Better padding for mobile */
+  }
+
+  header .search input:focus {
+    width: 220px;
+  }
+
+  nav ul {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 8px 15px;
+    position: fixed; /* Keep fixed */
+    top: 0; /* Ensure no gap */
+    width: 100%; /* Full width */
+  }
+
+  body {
+    padding-top: 160px !important; /* More space for smaller mobile header */
+  }
+
+  .logo h1.logoName {
+    font-size: 20px;
+  }
+
+  header .search input {
+    width: 150px;
+    padding: 6px 30px 6px 30px !important; /* Adjusted for smaller screens */
+    font-size: 14px;
+  }
+
+  header .search::before {
+    left: 8px; /* Adjust icon position for mobile */
+    font-size: 12px;
+  }
+
+  nav ul {
+    gap: 15px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+}
+
+/* ===== HOME PAGE RESPONSIVE STYLES ===== */
+
+/* Hero Section */
+@media (max-width: 768px) {
+  .hero .discover {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 35%;
+    padding: 12px 20px;
+  }
+
+  .hero h3 {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 70%;
+    text-align: center;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bckgrnd {
+    height: 60vh;
+  }
+
+  .hero .discover {
+    bottom: 25%;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .hero h3 {
+    top: 75%;
+    font-size: 16px;
+    padding: 0 20px;
+  }
+}
+
+/* Books Section */
+@media (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 0 20px;
+  }
+
+  .section-header {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-section {
+    margin: 30px 10px;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .book-card {
+    height: auto;
+    min-height: 350px;
+  }
+
+  .book-cover {
+    height: 200px;
+  }
+
+  .book-info {
+    padding: 8px;
+    min-height: 100px;
+  }
+
+  .book-title {
+    font-size: 12px;
+  }
+
+  .book-author {
+    font-size: 12px;
+  }
+
+  .add-cart {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 0 10px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 0 5px;
+  }
+
+  .book-card {
+    min-height: 280px;
+  }
+
+  .book-cover {
+    height: 160px;
+  }
+
+  .book-info {
+    padding: 6px;
+    min-height: 80px;
+  }
+
+  .book-title {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .book-author {
+    font-size: 10px;
+  }
+
+  .add-cart {
+    padding: 6px;
+    font-size: 10px;
+  }
+}
+
+/* News Section */
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .news-card img {
+    height: 200px;
+  }
+
+  .news-info {
+    padding: 8px;
+    min-height: 120px;
+  }
+
+  .news-info h3 {
+    font-size: 16px;
+  }
+}
+
+/* Clients Section */
+@media (max-width: 768px) {
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .post {
+    padding: 20px 15px;
+  }
+
+  .clients-section h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-head {
+    gap: 15px;
+  }
+
+  .post-head img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .post-head h3 {
+    font-size: 16px;
+  }
+
+  .post-body p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+/* ===== SHOP PAGE RESPONSIVE STYLES ===== */
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  #filter {
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .divofsections {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #filter {
+    margin: 15px;
+    padding: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  #filter h3 {
+    grid-column: span 2;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+  }
+
+  #filter label {
+    font-size: 12px;
+  }
+
+  #filter input[type="search"] {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  #filter input[type="button"] {
+    grid-column: span 2;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .books-section {
+    margin: 20px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #filter {
+    grid-template-columns: 1fr;
+    margin: 10px;
+    padding: 12px;
+  }
+
+  #filter h3 {
+    grid-column: span 1;
+    font-size: 13px;
+  }
+
+  #filter input[type="button"] {
+    grid-column: span 1;
+  }
+}
+
+/* ===== CART PAGE RESPONSIVE STYLES ===== */
+
+@media (max-width: 768px) {
+  .cart-page {
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: 95%;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .cart-item img {
+    width: 100px;
+    align-self: center;
+  }
+
+  .cart-info {
+    width: 100%;
+  }
+
+  .cart-info h2 {
+    font-size: 1.2rem;
+  }
+
+  .quantity-selector {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .remove-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .cart-summary {
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .checkout-btn {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .cart-page h2.empty {
+    position: static;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .confirmation-message {
+    position: static;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .confirmation-message p {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-page {
+    margin: 1rem auto;
+    padding: 0.5rem;
+  }
+
+  .cart-item img {
+    width: 80px;
+  }
+
+  .cart-info h2 {
+    font-size: 1rem;
+  }
+
+  .cart-info p {
+    font-size: 0.9rem;
+  }
+
+  .qtyadd-btn,
+  .qtyminus-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+
+  .qty-number {
+    width: 25px;
+    font-size: 1rem;
+  }
+}
+
+/* ===== BOOK DETAILS PAGE RESPONSIVE STYLES ===== */
+
+@media (max-width: 1024px) {
+  .cols_page {
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+  .side-bar {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  .main {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .bookimage {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .bookimage img {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+  }
+
+  .single-book-details {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    font-size: 24px;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .author_of_the_week,
+  .book_of_the_year {
+    padding-left: 15px;
+    padding-top: 15px;
+  }
+
+  .side-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .main {
+    margin-top: 20px;
+  }
+
+  .bookimage img {
+    max-width: 250px;
+  }
+
+  .single-book-details h4 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .single-book-details h2 {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .single-book-details .para {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .book {
+    margin-bottom: 15px;
+  }
+
+  .book img {
+    width: 40px;
+    height: 55px;
+  }
+
+  .book p {
+    font-size: 11px;
+  }
+
+  .book span {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cols_page {
+    margin-left: 5px;
+    margin-top: 20px;
+  }
+
+  .side-bar {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .author_of_the_week,
+  .book_of_the_year {
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  .about {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .bookimage img {
+    max-width: 200px;
+  }
+
+  .single-book-details {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .single-book-details h4 {
+    font-size: 18px;
+  }
+
+  .single-book-details h2 {
+    font-size: 20px;
+  }
+
+  .single-book-details input {
+    width: 40px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .single-book-details button {
+    width: 80%;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .book img {
+    width: 35px;
+    height: 50px;
+  }
+}
+
+/* ===== FOOTER RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+  footer {
+    padding: 30px 20px 15px 20px;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+
+  .footer-section h3,
+  .footer-section h4 {
+    font-size: 20px;
+  }
+
+  .footer-section p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .email-input {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .email-input .subscribe {
+    margin-left: 0;
+    padding: 8px 20px;
+  }
+
+  .social {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .social a {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 20px 15px 10px 15px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+
+  .footer-section h3,
+  .footer-section h4 {
+    font-size: 18px;
+  }
+
+  .footer-section p {
+    font-size: 13px;
+  }
+
+  .footer-section ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 5px;
+  }
+
+  .footer-section ul li a {
+    margin-left: 0;
+    font-size: 13px;
+  }
+}
+
+/* ===== ADDITIONAL UTILITY CLASSES ===== */
+
+/* Hide elements on mobile if needed */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive tables (if you add any) */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+
+  table th,
+  table td {
+    padding: 4px;
+  }
+}
+
+/* ===== SPECIFIC RESPONSIVE FIXES ===== */
+
+/* Fix for view buttons on mobile */
+@media (max-width: 480px) {
+  .view-options {
+    gap: 5px;
+  }
+
+  .view-btn {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Fix for checkout button positioning */
+@media (max-width: 768px) {
+  .checkout-btn {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* Responsive search bar improvements */
+@media (max-width: 768px) {
+  header .search {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  header .search input {
+    width: 100%;
+    padding-left: 35px !important; /* Ensure proper padding on mobile */
+  }
+
+  header .search input:focus {
+    width: 100%;
+  }
+
+  header .search::before {
+    left: 10px; /* Adjust icon position for mobile */
+  }
+}
+
+/* Additional fixes for header positioning */
+@media (max-width: 768px) {
+  /* Ensure no gap at top of page */
+  html {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  body {
+    margin-top: 0 !important;
+  }
+
+  header {
+    margin-top: 0 !important;
+    top: 0 !important;
+  }
+}
+
+/* Navigation improvements for mobile */
+@media (max-width: 768px) {
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav ul {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+/* ===== SHOP PAGE FILTER RESPONSIVE IMPROVEMENTS ===== */
+
+@media (max-width: 1024px) {
+  .container {
+    display: block;
+  }
+
+  #filter {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+
+  #filter > div {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  #filter {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #filter h3 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  #filter label {
+    font-size: 12px;
+  }
+}
+
+/* ===== LANDSCAPE MOBILE OPTIMIZATIONS ===== */
+@media (max-width: 896px) and (orientation: landscape) {
+  body {
+    padding-top: 90px;
+  }
+
+  .hero .discover {
+    bottom: 20%;
+  }
+
+  .hero h3 {
+    top: 80%;
+  }
+
+  .bckgrnd {
+    height: 80vh;
+  }
+}

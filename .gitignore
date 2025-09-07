@@ -1,0 +1,6 @@
+# ignore .env file 
+
+*.env
+
+# Ignore notes
+Notes.md
