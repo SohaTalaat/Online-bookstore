@@ -16,7 +16,9 @@ class User extends BaseModel
     public $phone;
     public $address;
 
-    function createUser($data)
+
+    // Add users to db
+    public function createUser($data)
     {
         $query = "INSERT INTO $this->table SET name = :name, email = :email, student_id = :student_id, password = :password, role = :role, phone = :phone, address = :address";
         $stmt = $this->db->prepare($query);
@@ -32,9 +34,56 @@ class User extends BaseModel
         return $stmt->execute();
     }
 
-    function findByEmail()
+    // Get emails from db
+    public function findByEmail($email)
     {
-        $query = "SELECT * FROM $this -> table WHERE email = :email";
+        $query = "SELECT * FROM $this->table WHERE email = :email";
         $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":email", $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Update Profile data
+    public function updateProfile($id, $data)
+    {
+        $query = "UPDATE $this->table SET name = :name, email = :email, phone = :phone, address = :address WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":name", $data['name']);
+        $stmt->bindParam(":email", $data['email']);
+        $stmt->bindParam(":phone", $data['phone']);
+        $stmt->bindParam(":address", $data['address']);
+
+        return $stmt->execute();
+    }
+
+    // Get student Data
+    public function getAllStudents()
+    {
+        $query = "SELECT * FROM $this->table WHERE role = 'student' ";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Get student by Id
+    public function getStudentById($student_id)
+    {
+        $query = "SELECT * FROM $this->table WHERE student_id = ?";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(1, $student_id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Verify Password
+    public function verifyPassword($password, $hash)
+    {
+        return password_verify($password, $hash);
     }
 }
