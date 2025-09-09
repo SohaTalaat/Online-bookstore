@@ -14,8 +14,28 @@ class Book extends BaseModel
     public $total_copies;
     public $available_copies;
 
+    // Add Book To db from API
+    public function createBook($bookData)
+    {
+        if (is_string($bookData)) {
+            $bookData = json_decode($bookData, true);
+        }
+
+        $sql = "INSERT INTO books (title, author, description, total_copies, available_copies)
+            VALUES (:title, :author, :description, :total_copies, :available_copies)";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindParam(':title', $bookData['title']);
+        $stmt->bindParam(':author', $bookData['author']);
+        $stmt->bindParam(':description', $bookData['description']);
+        $stmt->bindParam(':total_copies', $bookData['total_copies']);
+        $stmt->bindParam(':available_copies', $bookData['available_copies']);
+
+        return $stmt->execute();
+    }
+
     // Add Book To db
-    public function createBook($data)
+    public function createAdminBook($data)
     {
         $query = "INSERT INTO $this->table SET title = :title, author = :author, description = :description, total_copies = :total_copies, available_copies = :available_copies";
         $stmt = $this->db->prepare($query);
