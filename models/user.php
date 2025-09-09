@@ -87,13 +87,13 @@ public function createUser($data)
     // Get student by Id
     public function getStudentById($student_id)
     {
-        $query = "SELECT * FROM $this->table WHERE student_id = ?";
+        $query = "SELECT * FROM $this->table WHERE student_id = :student_id LIMIT 1 ";
         $stmt = $this->db->prepare($query);
 
-        $stmt->bindParam(1, $student_id);
+        $stmt->bindParam(":student_id", $student_id);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Verify Password

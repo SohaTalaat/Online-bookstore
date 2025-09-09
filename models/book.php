@@ -48,4 +48,35 @@ class Book extends BaseModel
 
         return $stmt->execute();
     }
+
+    public function updateBook($id,$data)
+    {
+        $query="UPDATE $this->table 
+        SET title =:title, author = :author, description =: description,
+        total_copies = :total_copies, available_copies = :available_copies
+        where id=:id";
+
+        $stmt=$this->db->prepare($query);
+        $stmt->bindParam(":title",$data['title']);
+        $stmt->bindParam(":author",$data['author']);
+        $stmt->bindParam(":description", $data['description']);
+        $stmt->bindParam(":total_copies", $data['total_copies']);
+        $stmt->bindParam(":available_copies", $data['available_copies']);
+        $stmt->bindParam(":id",$id);
+
+        return $stmt->execute();
+
+    }
+
+    public function deleteBook($id)
+    {
+        $query="DELETE from $this->table where id=:id";
+        $stmt=$this->db->prepare($query);
+        $stmt->bindParam(":id",$id);
+
+        return $stmt->execute();
+
+    }
+
+    
 }
