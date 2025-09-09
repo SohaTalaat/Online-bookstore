@@ -18,21 +18,27 @@ class User extends BaseModel
 
 
     // Add users to db
-    public function createUser($data)
-    {
-        $query = "INSERT INTO $this->table SET name = :name, email = :email, student_id = :student_id, password = :password, role = :role, phone = :phone, address = :address";
-        $stmt = $this->db->prepare($query);
+public function createUser($data)
+{
+    $query = "INSERT INTO $this->table 
+              SET name = :name, email = :email, student_id = :student_id, 
+                  password = :password, role = :role, phone = :phone, address = :address";
+    $stmt = $this->db->prepare($query);
 
-        $stmt->bindParam(":name", $data['name']);
-        $stmt->bindParam(":email", $data['email']);
-        $stmt->bindParam(":password", password_hash($data['name'], PASSWORD_DEFAULT));
-        $stmt->bindParam(":student_id", $data['student_id']);
-        $stmt->bindParam(":role", $data['role']);
-        $stmt->bindParam(":phone", $data['phone']);
-        $stmt->bindParam(":address", $data['address']);
+    $stmt->bindParam(":name", $data['name']);
+    $stmt->bindParam(":email", $data['email']);
 
-        return $stmt->execute();
-    }
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+    $stmt->bindParam(":password", $hashedPassword);
+
+    $stmt->bindParam(":student_id", $data['student_id']);
+    $stmt->bindParam(":role", $data['role']);
+    $stmt->bindParam(":phone", $data['phone']);
+    $stmt->bindParam(":address", $data['address']);
+
+    return $stmt->execute();
+}
+
 
     // Get emails from db
     public function findByEmail($email)
@@ -47,7 +53,7 @@ class User extends BaseModel
     // Update Profile data
     public function updateProfile($id, $data)
     {
-        $query = "UPDATE $this->table SET name = :name, email = :email, phone = :phone, address = :address WHERE id = :id";
+        $query = "UPDATE $this->table SET name = :name, email = :email, phone = :phone, address = :address WHERE user_id = :id";
         $stmt = $this->db->prepare($query);
 
         $stmt->bindParam(":id", $id);

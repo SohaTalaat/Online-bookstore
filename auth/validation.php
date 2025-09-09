@@ -38,7 +38,7 @@ try{
 
     if (empty($email)) {
         $errors['email'] = "Email is required";
-    } elseif ((filter_var($email,FILTER_VALIDATE_EMAIL))) {
+    } elseif ((!filter_var($email,FILTER_VALIDATE_EMAIL))) {
         $errors['email'] = "Invalid email";
     }
 
@@ -65,14 +65,29 @@ try{
     }
     else{
 
-        require("user.php");
-            $connection = new DB();
-            $table = "user";
-            $columns = "first_name,last_name,address,username,password,photo";
-            $values = "'$first_name','$last_name','$address','$username','$password','$photo'";
-            $connection->InsertData($table, $columns, $values);
+        require("../models/user.php");
+$connection = new User();
 
-    }
+    $data = [
+        'name'       => $name,
+        'email'      => $email,
+        'password'   => $password, // plain password (will be hashed in createUser)
+        'student_id' => $student_id,
+        'role'       => 'student', // or from form if you allow it
+        'phone'      => $phone,
+        'address'    => $address
+];
+
+$connection->createUser($data);
+if ($connection->createUser($data)) {
+    echo "User registered successfully!";
+} else {
+    echo "Failed to register user.";
+}
+
+
+
+}
 }catch(PDOException $e)
 {
     echo $e->getMessage();
