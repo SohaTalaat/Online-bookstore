@@ -79,11 +79,7 @@ $connection = new User();
 ];
 
 $connection->createUser($data);
-if ($connection->createUser($data)) {
-    echo "User registered successfully!";
-} else {
-    echo "Failed to register user.";
-}
+
 
 
 

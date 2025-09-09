@@ -65,6 +65,15 @@ public function createUser($data)
         return $stmt->execute();
     }
 
+     public function login($email, $password)
+    {
+        $user = $this->findByEmail($email);
+
+        if ($user && password_verify($password, $user['password'])) {
+            return $user; // success
+        }
+        return false; // fail
+    }
     // Get student Data
     public function getAllStudents()
     {
