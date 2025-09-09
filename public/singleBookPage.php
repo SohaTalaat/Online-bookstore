@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/bookDetails.css" />
+</head>
+
+<body>
+
+  <section id="bookdet" class="prodet">
+    <h2 class="about">Book Description</h2>
+    <div class="cols_page">
+      <div class="side-bar">
+        <div class="author_of_the_week">
+          <h5>Recommended Authors</h5>
+          <div class="author">
+            <span> Oscar Wilde </span>
+          </div>
+          <div class="author">
+            <span> Jane Austen </span>
+          </div>
+          <div class="author">
+            <span> Ingersoll Lockwood </span>
+          </div>
+        </div>
+
+        <div class="Book_Of_The_Year">
+          <h5>Recommended Books</h5>
+          <div class="Book" id="book0">
+            <div>
+              <img id="image0" onclick="recom_book_det(event)" />
+            </div>
+            <div>
+              <p id="auth0"></p>
+              <span id="tit0"> By David Harlows </span>
+            </div>
+          </div>
+
+          <div class="Book">
+            <div>
+              <img id="image1" onclick="recom_book_det(event)" />
+            </div>
+            <div>
+              <p id="auth1"></p>
+              <span id="tit1"> By David Harlows </span>
+            </div>
+          </div>
+
+          <div class="Book">
+            <div>
+              <img onclick="recom_book_det(event)" id="image2" />
+            </div>
+            <div>
+              <p id="auth2"></p>
+              <span id="tit2"> By David Harlows </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="bookimage">
+          <img id="mainimg" width="100%" height="100%" id="mainimg" alt="" />
+        </div>
+        <div class="single-book-details">
+          <h6>Home / New Releases /</h6>
+          <h6 id="label">Alone On The Wall</h6>
+          <h4 id="bookname">Alone On The Wall</h4>
+          <p class="authorname" id="authorname">By David Harlows</p>
+          <h2>$50.00</h2>
+          <br /><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star-half"></i> <span> 109,255 reviews </span><br />
+          <p class="para">
+            A captivating novel explores themes of love, loss, and resilience.
+            Its richly drawn characters grapple with difficult choices,
+            revealing the complexities of human relationships. The story's
+            evocative prose and suspenseful plot keep readers eagerly turning
+            the pages until the satisfying conclusion.
+          </p>
+          <img class="reco" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Start Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>BookStore</h3>
+          <p>
+            Your Trusted Partner for Finding The Perfect Book. Discover, Read,
+            and Grow With Us.
+          </p>
+          <div class="social">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Bestsellers</a></li>
+            <li><a href="#">New Arrivals</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Stay In The Loop</h4>
+          <p>
+            Subscribe to Our Newsletter and be The First To Know About New
+            Arrivals. Enter Your E-mail Below.
+          </p>
+          <div class="email-input">
+            <input
+              type="email"
+              name="mail"
+              id="mail"
+              placeholder="Your Email Address" />
+            <button class="subscribe">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <p>&copy; 2025 BookStore. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <script src="js/bookDetails.js"></script>
+</body>
+
+</html>
