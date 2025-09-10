@@ -7,18 +7,21 @@ $bookModel = new Book();
 $query = "new+releases"; // you can change this to 'novel', 'science', etc.
 $url = "https://openlibrary.org/search.json?q=" . urlencode($query) . "&limit=20";
 
-
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 
 if (!empty($data['docs'])) {
     foreach ($data['docs'] as $doc) {
+        $cover_url = !empty($doc['cover_i'])
+            ? "https://covers.openlibrary.org/b/id/" . $doc['cover_i'] . "-M.jpg"
+            : "images/placeholder.jpg";
         $bookData = [
             'title' => $doc['title'] ?? 'Untitled',
             'author' => $doc['author_name'][0] ?? 'Unknown',
             'description' => $doc['first_sentence'][0] ?? 'No description',
             'total_copies' => 5,
-            'available_copies' => 5
+            'available_copies' => 5,
+            'cover_url' => $cover_url
         ];
 
         $bookModel->createBook($bookData);

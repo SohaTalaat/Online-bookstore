@@ -11,8 +11,8 @@ let book;
 
 document.addEventListener("DOMContentLoaded", loadNew);
 document.addEventListener("DOMContentLoaded", loadBest);
-// document.addEventListener("click", addToLocalStorage);
-// document.addEventListener("click", showBookInfo);
+document.addEventListener("click", addToLocalStorage);
+document.addEventListener("click", showBookInfo);
 
 // Extract API Data
 
@@ -184,3 +184,18 @@ function addToLocalStorage(e) {
   }
 }
 
+// function showBookInfo(e) {
+//   if (e.target.classList.contains("book-cover")) {
+//     const bookCard = e.target.closest(".book-card");
+//     const title = bookCard.querySelector(".book-title").innerText;
+//     const imageSrc = e.target.src;
+
+//     // set Data to local storage
+//     localStorage.setItem(
+//       "selectedBook",
+//       JSON.stringify({ title: title, image: imageSrc })
+//     );
+//     // Single book page
+//     // window.location.href = "singleBookPage.html";
+//   }
+// }

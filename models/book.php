@@ -21,13 +21,14 @@ class Book extends BaseModel
             $bookData = json_decode($bookData, true);
         }
 
-        $sql = "INSERT INTO books (title, author, description, total_copies, available_copies)
-            VALUES (:title, :author, :description, :total_copies, :available_copies)";
+        $sql = "INSERT INTO books (title, author, description, cover_url, total_copies, available_copies)
+            VALUES (:title, :author, :description, :cover_url, :total_copies, :available_copies)";
         $stmt = $this->db->prepare($sql);
 
         $stmt->bindParam(':title', $bookData['title']);
         $stmt->bindParam(':author', $bookData['author']);
         $stmt->bindParam(':description', $bookData['description']);
+        $stmt->bindParam(':cover_url', $bookData['cover_url']);
         $stmt->bindParam(':total_copies', $bookData['total_copies']);
         $stmt->bindParam(':available_copies', $bookData['available_copies']);
 
@@ -37,7 +38,7 @@ class Book extends BaseModel
     // Add Book To db
     public function createAdminBook($data)
     {
-        $query = "INSERT INTO $this->table SET title = :title, author = :author, description = :description, total_copies = :total_copies, available_copies = :available_copies";
+        $query = "INSERT INTO $this->table SET title = :title, author = :author, description = :description, total_copies = :total_copies, available_copies = :available_copies, cover_url = :cover_url";
         $stmt = $this->db->prepare($query);
 
         $stmt->bindParam(":title", $data['title']);
@@ -45,6 +46,7 @@ class Book extends BaseModel
         $stmt->bindParam(":description", $data['description']);
         $stmt->bindParam(":total_copies", $data['total_copies']);
         $stmt->bindParam(":available_copies", $data['available_copies']);
+        $stmt->bindParam(':cover_url', $cover_url);
 
         return $stmt->execute();
     }
@@ -53,7 +55,7 @@ class Book extends BaseModel
     {
         $query = "UPDATE $this->table 
         SET title =:title, author = :author, description =: description,
-        total_copies = :total_copies, available_copies = :available_copies
+        total_copies = :total_copies, available_copies = :available_copies, cover_url = :cover_url
         where id=:id";
 
         $stmt = $this->db->prepare($query);
@@ -62,6 +64,7 @@ class Book extends BaseModel
         $stmt->bindParam(":description", $data['description']);
         $stmt->bindParam(":total_copies", $data['total_copies']);
         $stmt->bindParam(":available_copies", $data['available_copies']);
+        $stmt->bindParam(':cover_url', $cover_url);
         $stmt->bindParam(":id", $id);
 
         return $stmt->execute();
@@ -74,5 +77,13 @@ class Book extends BaseModel
         $stmt->bindParam(":id", $id);
 
         return $stmt->execute();
+    }
+
+    public function getAllBooks()
+    {
+        $query = "SELECT * FROM {$this->table}";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt;
     }
 }
