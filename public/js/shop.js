@@ -1,174 +1,107 @@
-let booksGrid = document.getElementById("booksGrid");
-let booksGrid2 = document.getElementById("booksGrid2");
-let addToCart;
-let bookInfo;
-let book;
-document.addEventListener("DOMContentLoaded", loadNew);
-document.addEventListener("DOMContentLoaded", loadBest);
+// DOM Elements
+let booksGrid = document.getElementById("booksGrid");   // قسم New Releases
+let booksGrid2 = document.getElementById("booksGrid2"); // قسم Best Sellers
+
+// Event Listeners
+document.addEventListener("DOMContentLoaded", loadBooks);
 document.addEventListener("click", addToLocalStorage);
-document.addEventListener("click", showBookInfo);
 
-function loadNew() {
-  // Extract API Data
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var book = xhr.responseText;
-      displayNew(book);
-    }
-  };
-  var url = "https://openlibrary.org/search.json?q=new+releases&limit=8";
-  xhr.open("get", url, true);
-  xhr.send();
+// ===== Load Books from DB =====
+function loadBooks() {
+  fetch("/fetch_books.php") // PHP بترجع JSON من DB
+    .then((res) => res.json())
+    .then((data) => {
+      displayBooks(data, booksGrid);   // New Releases
+      displayBooks(data, booksGrid2);  // Best Sellers (نفس الكتب مؤقتاً)
+    })
+    .catch((err) => console.error("Error fetching books:", err));
 }
-function displayNew(p) {
-  var jsonData = JSON.parse(p);
-  var bookData = jsonData.docs;
-  for (let i = 0; i < bookData.length; i++) {
-    // Create book Container
-    var bookCard = document.createElement("div");
+
+// ===== Display Books =====
+function displayBooks(books, container) {
+  if (!container) return;
+  container.innerHTML = ""; // clear before append
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  books.forEach((book) => {
+    // book card
+    const bookCard = document.createElement("div");
     bookCard.className = "book-card";
-    var bookImage = document.createElement("img");
+
+    // book image
+    const bookImage = document.createElement("img");
     bookImage.className = "book-cover";
-    var coverId = jsonData.docs[i].cover_i;
-    bookImage.src = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
+    bookImage.src = book.cover_url || "images/placeholder.png";
     bookCard.appendChild(bookImage);
-    // Create Info Card
-    let bookInfo = document.createElement("div");
+
+    // info div
+    const bookInfo = document.createElement("div");
     bookInfo.className = "book-info";
-    let bookTitle = document.createElement("h3");
+
+    // title
+    const bookTitle = document.createElement("h3");
     bookTitle.className = "book-title";
-    bookTitle.innerText = jsonData.docs[i].title;
-    let bookAuthor = document.createElement("p");
+    bookTitle.innerText = book.title;
+
+    // author
+    const bookAuthor = document.createElement("p");
     bookAuthor.className = "book-author";
-    bookAuthor.innerText = `By ${jsonData.docs[i].author_name}`;
-    // Create Spacer
-    let spacer = document.createElement("div");
+    bookAuthor.innerText = `By ${book.author}`;
+
+    // spacer
+    const spacer = document.createElement("div");
     spacer.className = "spacer";
-    //Add To Cart Button
-    let addToCart = document.createElement("button");
+
+    // Add To Cart button
+    const addToCart = document.createElement("button");
     addToCart.className = "add-cart";
     addToCart.innerText = "Add To Cart";
-    // check if book checked befor reload
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let coverIdStr = String(coverId);
-    if (cart.some((book) => book.id === coverIdStr)) {
+    addToCart.dataset.bookId = book.book_id; // مهم للتعامل مع localStorage
+
+    // check if already in cart
+    if (cart.some((item) => String(item.id) === String(book.book_id))) {
       addToCart.innerText = "Added to Cart";
       addToCart.disabled = true;
       addToCart.classList.add("disabled");
     }
-    // Append Data
+
+    // append all
     bookInfo.appendChild(bookTitle);
     bookInfo.appendChild(bookAuthor);
-    bookCard.appendChild(bookInfo);
     bookInfo.appendChild(spacer);
     bookInfo.appendChild(addToCart);
-    booksGrid2.append(bookCard);
-  }
-}
-// BestSellers Section
-// Extract API Data
-function loadBest() {
-  var xhr2 = new XMLHttpRequest();
-  xhr2.onreadystatechange = function () {
-    if (xhr2.readyState == 4 && xhr2.status == 200) {
-      var book = xhr2.responseText;
-      displayBest(book);
-    }
-  };
-  var url = "https://openlibrary.org/search.json?q=bestsellers&limit=20";
-  xhr2.open("get", url, true);
-  xhr2.send();
-}
-function displayBest(p) {
-  var jsonData = JSON.parse(p);
-  var bookData = jsonData.docs;
-  for (let i = 0; i < bookData.length; i++) {
-    // Create book Container
-    var bookCard = document.createElement("div");
-    bookCard.className = "book-card";
-    var bookImage = document.createElement("img");
-    bookImage.className = "book-cover";
-    var coverId = jsonData.docs[i].cover_i;
-    bookImage.src = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
-    bookCard.appendChild(bookImage);
-    // Create Info Card
-    let bookInfo = document.createElement("div");
-    bookInfo.className = "book-info";
-    let bookTitle = document.createElement("h3");
-    bookTitle.className = "book-title";
-    bookTitle.innerText = jsonData.docs[i].title;
-    let bookAuthor = document.createElement("p");
-    bookAuthor.className = "book-author";
-    bookAuthor.innerText = `By ${jsonData.docs[i].author_name}`;
-    // Create Spacer
-    let spacer = document.createElement("div");
-    spacer.className = "spacer";
-    //Add To Cart Button
-    let addToCart = document.createElement("button");
-    addToCart.className = "add-cart";
-    addToCart.innerText = "Add To Cart";
-    // check if book checked befor reload
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let coverIdStr = String(coverId);
-    if (cart.some((book) => book.id === coverIdStr)) {
-      addToCart.innerText = "Added to Cart";
-      addToCart.disabled = true;
-      addToCart.classList.add("disabled");
-    }
-    // Append Data
-    bookInfo.appendChild(bookTitle);
-    bookInfo.appendChild(bookAuthor);
+
     bookCard.appendChild(bookInfo);
-    bookInfo.appendChild(spacer);
-    bookInfo.appendChild(addToCart);
-    booksGrid.append(bookCard);
-  }
+    container.appendChild(bookCard);
+  });
 }
-//Event functions
+
+// ===== Add To Cart (LocalStorage) =====
 function addToLocalStorage(e) {
-  if (e.target.classList.contains("add-cart")) {
-    const bookCard = e.target.closest(".book-card");
-    const title = bookCard.querySelector(".book-title").innerText;
-    const imageSrc = bookCard.querySelector(".book-cover").src;
-    const coverId = imageSrc.match(/\/b\/id\/(\d+)-L\.jpg/)[1];
-    const newBook = {
-      title: title,
-      image: imageSrc,
-      id: coverId,
-    };
+  if (!e.target.classList.contains("add-cart")) return;
 
-    // // Initialize Array
-    let cart = [];
-    if (localStorage.getItem("cart")) {
-      cart = JSON.parse(localStorage.getItem("cart"));
-    }
-    const exists = cart.some((book) => book.id === newBook.id);
-    if (!exists) {
-      cart.push(newBook);
-      localStorage.setItem("cart", JSON.stringify(cart));
+  const btn = e.target;
+  const card = btn.closest(".book-card");
+  if (!card) return;
 
-      e.target.innerText = "Added To Cart";
-      e.target.disabled = true;
-      e.target.classList.add("disabled");
+  const id = btn.dataset.bookId;
+  const title = card.querySelector(".book-title").innerText.trim();
+  const author = card.querySelector(".book-author").innerText.replace(/^By\s*/i, "").trim();
+  const cover = card.querySelector(".book-cover").getAttribute("src");
 
-    }
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  let existing = cart.find((item) => String(item.id) === String(id));
+  if (existing) {
+    existing.qty = (existing.qty || 1) + 1;
+  } else {
+    cart.push({ id: id, title: title, author: author, cover: cover, qty: 1 });
   }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  btn.innerText = "Added ✓";
+  btn.disabled = true;
+  btn.classList.add("disabled");
 }
-
-//   function showBookInfo(e) {
-//   if (e.target.classList.contains("book-cover")) {
-//     const bookCard = e.target.closest(".book-card");
-//     const title = bookCard.querySelector(".book-title").innerText;
-//     const imageSrc = e.target.src;
-
-//     // set Data to local storage
-//     localStorage.setItem(
-//       "selectedBook",
-//       JSON.stringify({ title: title, image: imageSrc })
-//     );
-//     // Single book page
-//     window.location.href = "singleBookPage.html";
-//   }
-// }
-

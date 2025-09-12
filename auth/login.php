@@ -21,15 +21,15 @@ error_reporting(E_ALL);
     <div class="card shadow-lg p-4 rounded-4" style="width: 450px;">
         <h2 class="text-center mb-4">Login to Your Account</h2>
 
-        <form action="login.php" method="post">
+        <form action="login.php" method="post" onsubmit="return validateLogin(event)">
             <div class="mb-3">
                 <label class="form-label fw-bold">Email Address</label>
-                <input type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Password</label>
-                <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required minlength="6">
             </div>
 
             <div class="d-grid">
@@ -49,18 +49,32 @@ error_reporting(E_ALL);
     if (isset($_POST['login'])) {
         try {
 
-            $userModel = new User($connection);
+            $userModel = new User();
+
+            // Basic rate limit by IP in session
+            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            $_SESSION['login_attempts'] = $_SESSION['login_attempts'] ?? [];
+            $attempts = $_SESSION['login_attempts'][$ip] ?? ['count' => 0, 'time' => time()];
+            if ($attempts['count'] >= 5 && (time() - $attempts['time']) < 300) {
+                $_SESSION['flash_error'] = 'Too many attempts. Please try again later.';
+                header('Location: login.php');
+                exit;
+            }
+
             $user = $userModel->login($_POST['email'], $_POST['password']);
 
             if ($user) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['email']   = $user['email'];
-                $_SESSION['role']    = $user['role'];
-
-                header("Location: ../admin/index.php");
+                $_SESSION['user'] = $user;
+                $_SESSION['login_attempts'][$ip] = ['count' => 0, 'time' => time()];
+                $redirect = ($user['role'] === 'admin') ? '../admin/index.php' : '../student/index.php';
+                header("Location: $redirect");
                 exit;
             } else {
-                header("Location: login.php?errors=1");
+                $attempts['count'] = ($attempts['count'] ?? 0) + 1;
+                $attempts['time'] = time();
+                $_SESSION['login_attempts'][$ip] = $attempts;
+                $_SESSION['flash_error'] = 'Invalid email or password';
+                header("Location: login.php");
                 exit;
             }
         } catch (PDOException $e) {
@@ -69,6 +83,21 @@ error_reporting(E_ALL);
     }
 
     ?>
+    <script>
+        function validateLogin(e) {
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('password').value;
+            if (!email || !pass) {
+                alert('Please fill in email and password');
+                return false;
+            }
+            if (pass.length < 6) {
+                alert('Password must be at least 6 characters');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 
 </html>

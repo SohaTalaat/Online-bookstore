@@ -39,3 +39,14 @@ if (session_status() === PHP_SESSION_NONE) {
     </nav>
 </header>
 <!-- End Header -->
+<?php if (!empty($_SESSION['flash_success']) || !empty($_SESSION['flash_error'])): ?>
+    <div style="max-width:1200px;margin:12px auto;padding:12px 16px;border-radius:8px;<?php echo !empty($_SESSION['flash_success']) ? 'background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;' : 'background:#fef2f2;color:#991b1b;border:1px solid #fecaca;'; ?>">
+        <?php if (!empty($_SESSION['flash_success'])): ?>
+            <?php echo htmlspecialchars($_SESSION['flash_success']);
+            unset($_SESSION['flash_success']); ?>
+        <?php elseif (!empty($_SESSION['flash_error'])): ?>
+            <?php echo htmlspecialchars($_SESSION['flash_error']);
+            unset($_SESSION['flash_error']); ?>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

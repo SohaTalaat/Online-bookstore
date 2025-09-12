@@ -199,3 +199,4 @@ function addToLocalStorage(e) {
 //     // window.location.href = "singleBookPage.html";
 //   }
 // }
+

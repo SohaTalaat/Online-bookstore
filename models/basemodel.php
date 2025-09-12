@@ -7,6 +7,7 @@ class BaseModel
 
     protected $db;
     protected $table;
+    protected $primaryKey = 'id';
 
     public function __construct()
     {
@@ -24,7 +25,7 @@ class BaseModel
 
     public function findById($id)
     {
-        $query = "SELECT * FROM $this->table WHERE id = ?";
+        $query = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
@@ -33,7 +34,7 @@ class BaseModel
 
     public function delete($id)
     {
-        $query = "DELETE FROM $this->table WHERE id = ?";
+        $query = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(1, $id);
         return $stmt->execute();

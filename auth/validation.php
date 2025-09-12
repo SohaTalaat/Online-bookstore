@@ -5,10 +5,9 @@ error_reporting(E_ALL);
 
 function validate($data)
 {
-
+    $data = is_string($data) ? $data : '';
     $data = trim($data);
-    $data = stripcslashes($data);
-    $data = htmlspecialchars($data);
+    $data = stripslashes($data);
     return $data;
 }
 
@@ -44,7 +43,7 @@ try {
     if (empty($password)) {
         $errors['password'] = "Password is required";
     } elseif (strlen($password) < 6) {
-        $errors['password'] = " password must be at least 6";
+        $errors['password'] = "Password must be at least 6 characters";
     }
 
     if (empty($student_id)) {
@@ -74,7 +73,17 @@ try {
             'address'    => $address
         ];
 
+        // unique email check
+        if ($connection->findByEmail($email)) {
+            $_SESSION['errors'] = ['email' => 'Email already registered'];
+            header("Location:register.php");
+            exit;
+        }
+
         $connection->createUser($data);
+        $_SESSION['flash_success'] = 'Registration successful. Please login.';
+        header('Location: login.php');
+        exit;
     }
 } catch (PDOException $e) {
     echo $e->getMessage();

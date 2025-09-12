@@ -1,11 +1,12 @@
 <?php
 
-require 'basemodel.php';
+require_once __DIR__ . '/basemodel.php';
 
 class User extends BaseModel
 {
 
     protected $table = "user";
+    protected $primaryKey = 'user_id';
 
     public $id;
     public $name;
@@ -18,26 +19,26 @@ class User extends BaseModel
 
 
     // Add users to db
-public function createUser($data)
-{
-    $query = "INSERT INTO $this->table 
+    public function createUser($data)
+    {
+        $query = "INSERT INTO $this->table 
               SET name = :name, email = :email, student_id = :student_id, 
                   password = :password, role = :role, phone = :phone, address = :address";
-    $stmt = $this->db->prepare($query);
+        $stmt = $this->db->prepare($query);
 
-    $stmt->bindParam(":name", $data['name']);
-    $stmt->bindParam(":email", $data['email']);
+        $stmt->bindParam(":name", $data['name']);
+        $stmt->bindParam(":email", $data['email']);
 
-    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-    $stmt->bindParam(":password", $hashedPassword);
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt->bindParam(":password", $hashedPassword);
 
-    $stmt->bindParam(":student_id", $data['student_id']);
-    $stmt->bindParam(":role", $data['role']);
-    $stmt->bindParam(":phone", $data['phone']);
-    $stmt->bindParam(":address", $data['address']);
+        $stmt->bindParam(":student_id", $data['student_id']);
+        $stmt->bindParam(":role", $data['role']);
+        $stmt->bindParam(":phone", $data['phone']);
+        $stmt->bindParam(":address", $data['address']);
 
-    return $stmt->execute();
-}
+        return $stmt->execute();
+    }
 
 
     // Get emails from db
@@ -65,7 +66,7 @@ public function createUser($data)
         return $stmt->execute();
     }
 
-     public function login($email, $password)
+    public function login($email, $password)
     {
         $user = $this->findByEmail($email);
 

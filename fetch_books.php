@@ -1,32 +1,17 @@
 <?php
-require_once "config/db.php";
-require_once "models/book.php";
+require_once __DIR__ . '/models/book.php';
 
-$bookModel = new Book();
+header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
-$query = "new+releases"; // you can change this to 'novel', 'science', etc.
-$url = "https://openlibrary.org/search.json?q=" . urlencode($query) . "&limit=20";
+try {
+    $bookModel = new Book();
+    $stmt = $bookModel->getAllBooks();
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$json = file_get_contents($url);
-$data = json_decode($json, true);
-
-if (!empty($data['docs'])) {
-    foreach ($data['docs'] as $doc) {
-        $cover_url = !empty($doc['cover_i'])
-            ? "https://covers.openlibrary.org/b/id/" . $doc['cover_i'] . "-M.jpg"
-            : "images/placeholder.jpg";
-        $bookData = [
-            'title' => $doc['title'] ?? 'Untitled',
-            'author' => $doc['author_name'][0] ?? 'Unknown',
-            'description' => $doc['first_sentence'][0] ?? 'No description',
-            'total_copies' => 5,
-            'available_copies' => 5,
-            'cover_url' => $cover_url
-        ];
-
-        $bookModel->createBook($bookData);
-    }
-    echo "Books inserted successfully!";
-} else {
-    echo "No data found from API.";
+    echo json_encode($books, JSON_UNESCAPED_UNICODE);
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to fetch books', 'message' => $e->getMessage()]);
 }
