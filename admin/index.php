@@ -12,16 +12,17 @@ require_role($roleRequired);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="height: 92vh;">
         <h2>Admin Dashboard</h2>
         <ul style="display:flex;gap:16px;flex-wrap:wrap;list-style:none;padding-left:0;">
             <li><a class="btn" href="books.php">Manage Books</a></li>
-            <li><a class="btn" href="users.php">Users</a></li>
-            <li><a class="btn" href="../student/books.php">Student Books</a></li>
-            <li><a class="btn" href="../student/borrowed.php">Borrowed</a></li>
+            <li><a class="btn" href="users.php">Manage Users</a></li>
+            <li><a class="btn" href="borrowed_books.php">All Borrowed Books</a></li>
+            <li><a class="btn" href="profile.php">My Profile</a></li>
         </ul>
     </div>
     <?php require_once __DIR__ . '/../includes/footer.php'; ?>

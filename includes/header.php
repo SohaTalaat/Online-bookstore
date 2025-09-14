@@ -20,9 +20,6 @@ if (session_status() === PHP_SESSION_NONE) {
         <ul>
             <li><a href="/php/BookStore/public/index.php">Home</a></li>
             <li><a href="/php/BookStore/public/shop.php">Shop</a></li>
-            <li>
-                <a href="/php/BookStore/public/cart.php">Cart <i class="fas fa-shopping-cart"></i></a>
-            </li>
 
             <?php if (!empty($_SESSION['user'])): ?>
                 <?php if ($_SESSION['user']['role'] === 'student'): ?>

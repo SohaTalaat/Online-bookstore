@@ -59,7 +59,7 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Books</title>
-    <link rel="stylesheet" href="../public/css/shop.css">
+    <link rel="stylesheet" href="../public/css/style.css">
     <link rel="stylesheet" href="../public/css/responsive.css">
     <link rel="stylesheet" href="../public/css/all.min.css">
     <style>
@@ -124,7 +124,7 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="margin-top: 20px;">
         <h2>Manage Books</h2>
 
         <h3>Create New Book</h3>
@@ -167,7 +167,6 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <button type="submit" onclick="return confirm('Delete this book?')">Delete</button>
                             </form>
 
-                            <!-- Inline Update Form -->
                             <details>
                                 <summary>Edit</summary>
                                 <form method="post" style="margin-top:8px;">

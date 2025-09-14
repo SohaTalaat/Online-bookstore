@@ -37,12 +37,13 @@ $items = $borrowModel->getBorrowedByUser($userId);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Borrowed Books</title>
-    <link rel="stylesheet" href="../public/css/shop.css">
-    <link rel="stylesheet" href="../public/css/responsive.css">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
+
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="min-height: 92vh; margin-top: 50px;">
         <h2>My Borrowed Books</h2>
         <div class="books-grid">
             <?php foreach ($items as $it): ?>

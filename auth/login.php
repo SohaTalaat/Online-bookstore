@@ -3,6 +3,47 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ?>
+<?php
+session_start();
+require_once __DIR__ . '/../models/user.php';
+
+if (isset($_POST['login'])) {
+    try {
+
+        $userModel = new User();
+
+        // Basic rate limit by IP in session
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $_SESSION['login_attempts'] = $_SESSION['login_attempts'] ?? [];
+        $attempts = $_SESSION['login_attempts'][$ip] ?? ['count' => 0, 'time' => time()];
+        if ($attempts['count'] >= 5 && (time() - $attempts['time']) < 300) {
+            $_SESSION['flash_error'] = 'Too many attempts. Please try again later.';
+            header('Location: login.php');
+            exit;
+        }
+
+        $user = $userModel->login($_POST['email'], $_POST['password']);
+
+        if ($user) {
+            $_SESSION['user'] = $user;
+            $_SESSION['login_attempts'][$ip] = ['count' => 0, 'time' => time()];
+            $redirect = ($user['role'] === 'admin') ? '../admin/index.php' : '../student/index.php';
+            header("Location: $redirect");
+            exit;
+        } else {
+            $attempts['count'] = ($attempts['count'] ?? 0) + 1;
+            $attempts['time'] = time();
+            $_SESSION['login_attempts'][$ip] = $attempts;
+            $_SESSION['flash_error'] = 'Invalid email or password. Please check your credentials.';
+            header("Location: login.php");
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "DB Error: " . $e->getMessage();
+    }
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,52 +78,15 @@ error_reporting(E_ALL);
             </div>
         </form>
 
-        <?php if (isset($_GET['errors'])): ?>
-            <div class="alert alert-danger mt-3 text-center">Invalid login. Please try again.</div>
+        <?php if (!empty($_SESSION['flash_error'])): ?>
+            <div class="alert alert-danger mt-3 text-center">
+                <?= htmlspecialchars($_SESSION['flash_error']); ?>
+                <?php unset($_SESSION['flash_error']); ?>
+            </div>
         <?php endif; ?>
     </div>
 
-    <?php
-    session_start();
-    require("../models/user.php");
 
-    if (isset($_POST['login'])) {
-        try {
-
-            $userModel = new User();
-
-            // Basic rate limit by IP in session
-            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-            $_SESSION['login_attempts'] = $_SESSION['login_attempts'] ?? [];
-            $attempts = $_SESSION['login_attempts'][$ip] ?? ['count' => 0, 'time' => time()];
-            if ($attempts['count'] >= 5 && (time() - $attempts['time']) < 300) {
-                $_SESSION['flash_error'] = 'Too many attempts. Please try again later.';
-                header('Location: login.php');
-                exit;
-            }
-
-            $user = $userModel->login($_POST['email'], $_POST['password']);
-
-            if ($user) {
-                $_SESSION['user'] = $user;
-                $_SESSION['login_attempts'][$ip] = ['count' => 0, 'time' => time()];
-                $redirect = ($user['role'] === 'admin') ? '../admin/index.php' : '../student/index.php';
-                header("Location: $redirect");
-                exit;
-            } else {
-                $attempts['count'] = ($attempts['count'] ?? 0) + 1;
-                $attempts['time'] = time();
-                $_SESSION['login_attempts'][$ip] = $attempts;
-                $_SESSION['flash_error'] = 'Invalid email or password';
-                header("Location: login.php");
-                exit;
-            }
-        } catch (PDOException $e) {
-            echo "DB Error: " . $e->getMessage();
-        }
-    }
-
-    ?>
     <script>
         function validateLogin(e) {
             const email = document.getElementById('email').value.trim();

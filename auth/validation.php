@@ -60,15 +60,15 @@ try {
         header("Location:register.php");
     } else {
 
-        require("../models/user.php");
+        require_once __DIR__ . '/../models/user.php';
         $connection = new User();
 
         $data = [
             'name'       => $name,
             'email'      => $email,
-            'password'   => $password, // plain password (will be hashed in createUser)
+            'password'   => $password,
             'student_id' => $student_id,
-            'role'       => 'student', // or from form if you allow it
+            'role'       => 'student',
             'phone'      => $phone,
             'address'    => $address
         ];

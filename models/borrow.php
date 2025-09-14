@@ -78,4 +78,43 @@ class Borrow extends BaseModel
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getAllBorrowedBooks($statusFilter = 'all', $studentIdFilter = '')
+    {
+        $sql = "SELECT ub.*, b.title, b.author, b.cover_url, u.name as student_name, u.email as student_email, u.student_id
+                FROM {$this->table} ub
+                JOIN books b ON b.book_id = ub.book_id
+                JOIN user u ON u.user_id = ub.user_id
+                WHERE 1=1";
+
+        $params = [];
+
+        if ($statusFilter !== 'all') {
+            $sql .= " AND ub.status = :status";
+            $params[':status'] = $statusFilter;
+        }
+
+        if (!empty($studentIdFilter)) {
+            $sql .= " AND u.student_id LIKE :student_id";
+            $params[':student_id'] = '%' . $studentIdFilter . '%';
+        }
+
+        $sql .= " ORDER BY ub.borrow_date DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getBorrowingStats()
+    {
+        $sql = "SELECT 
+            COUNT(*) as total_borrows,
+            SUM(CASE WHEN status = 'borrowed' THEN 1 ELSE 0 END) as active_borrows,
+            SUM(CASE WHEN status = 'returned' THEN 1 ELSE 0 END) as returned_borrows
+            FROM {$this->table}";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
