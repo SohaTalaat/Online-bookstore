@@ -1,4 +1,4 @@
-# 📚 Online Library Management System
+# Online Library Management System
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/SohaTalaat/Online-bookstore)  
 ![GitHub contributors](https://img.shields.io/github/contributors/SohaTalaat/Online-bookstore)  
